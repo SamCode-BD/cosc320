@@ -24,8 +24,7 @@ template <class T> void selection(T[], int);
 template <class T> void bubblesort2(T[], int);
 template <class T> void timeSort(T[], T[], int);   /*void (*fctptr[4])(T[], int)*/
 template <class T> void printArray(T[], int);
-//template <class T> void seedArray(T[], T[], T[], int);
-
+template <class T> void randomShuffle(T[], int);
 int main(){
     //seed random
     srand(time(0));
@@ -56,15 +55,16 @@ int main(){
     
     //for loop to populate an array of n values sorted randomly to simulate average case scenario
     for (int i = 0; i < arrSize; i++){
-        seedA2[i] = rand() % arrSize + 1;
+        seedA2[i] = i;
     }
+    randomShuffle(seedA2, arrSize);
     //for loop to seed the three arrays that will be passed to the timing and sorting algorithms. This will have to be used every time a new sort is ran.
     for (int i = 0; i < arrSize; i++){
         A[i] = seedA[i];
         A1[i] = seedA1[i];
         A2[i] = seedA2[i];
     }
-    
+ 
     //fctptr[0] = bubble;
     //fctptr[1] = insertion;
     //fctptr[2] = selection;
@@ -100,9 +100,26 @@ int main(){
     delete[] A;
     delete[] A1;
     delete[] A2;
+    delete[] seedA;
+    delete[] seedA1;
+    delete[] seedA2;
     return 0;
 }
 
+/*
+Description: A function that randomly shuffles a templated array by creating two random values that are used as array indexes and swapping them. The random numbers are generated and the array values are swapped n times because they are put into a for loop that runs as many times as the size of the array. 
+Parameters: An array of templated values, integer value for the size of the array
+Return: None
+Notes: 
+*/
+
+template <class T> void randomShuffle(T A[], int arrSize){
+    for (int i = 0; i < arrSize; i++){
+        int num1 = rand() % arrSize + 0;
+        int num2 = rand() % arrSize + 0;
+        swap(A[num1], A[num2]);
+    }
+} 
 /*
 Description: A function that prints out all the contents of an array
 Parameters: An array of templated values, integer value for the size of the array
@@ -141,11 +158,12 @@ template <class T> void timeSort(T A[], T seedA[], int arrSize){
         << duration.count() / 1000000.0 << " seconds" << endl;
         //cout << "After Sort" << endl;
         //printArray(A, arrSize);
+        // re-seed the array with the default values for the next sorting algorithm
         for (int j = 0; j < arrSize; j++){
             A[j] = seedA[j];
         }
-       // cout << "After Reset: " << endl;
-       // printArray(A, arrSize);
+        //cout << "After Reset: " << endl;
+        //printArray(A, arrSize);
     }
 }
 
@@ -206,12 +224,9 @@ template <class T> void selection(T A[], int arrSize) {
 template<class T> void bubblesort2(T A[], int arrSize){
     bool again = true;
     for (int i = 0; i < arrSize-1 && again; i++)
-        for (int j = arrSize-1, again = false; j>i; --j)
+        for (int j = arrSize-1, again = false; j > i; --j)
             if (A[j] < A[j-1]){
-                T temp = A[j];
-                A[j] = A[j-1];
-                A[j-1] = temp;
-                //swap(A[j], A[j-1]);
+                swap(A[j], A[j-1]);
                 again = true;
             }
 }
