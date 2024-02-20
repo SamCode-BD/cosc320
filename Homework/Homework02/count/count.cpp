@@ -1,6 +1,6 @@
 /*
  * Author: Samuel Dickerson
- * Creation Date: 2/16/2024
+ * Creation Date: 2/19/2024
  * Last Update: 2/19/2024
  * Description: A program that asks the user for an array arrSize, populates an integer arrray with numbers in a way that is appropriate to the scenario being tested (best, worst, or average case running time), and times the sort of four basic sorting algorithms. 
  * User Interface: User must enter the arrSize of an integer array. 
@@ -18,11 +18,11 @@ using namespace std::chrono;
 
 //Function Prototypes
 
-template <class T> void bubble(T[], int);
-template <class T> void insertion(T[], int);
-template <class T> void selection(T[], int);
-template <class T> void bubblesort2(T[], int);
-template <class T> void timeSort(T[], T[], int);  
+template <class T> long bubble(T[], int);
+template <class T> long insertion(T[], int);
+template <class T> long selection(T[], int);
+template <class T> long bubblesort2(T[], int);
+template <class T> void countSort(T[], T[], int);  
 template <class T> void printArray(T[], int);
 template <class T> void randomShuffle(T[], int);
 
@@ -69,17 +69,17 @@ int main(){
     }
     
     cout << "Best Cases" << endl;
-    timeSort(A, seedA, arrSize);
+    countSort(A, seedA, arrSize);
     cout << endl;
     
     cout << "Worst Cases" << endl;
-    timeSort(A1, seedA1, arrSize);
+    countSort(A1, seedA1, arrSize);
     cout << endl;
-    
+
     cout << "Average Cases" << endl;
-    timeSort(A2, seedA2, arrSize);
+    countSort(A2, seedA2, arrSize);
     cout << endl;
-    
+
     delete[] A;
     delete[] A1;
     delete[] A2;
@@ -90,11 +90,11 @@ int main(){
 }
 
 /*
- * Description: A function that randomly shuffles a templated array by creating two random values that are used as array indexes and swapping them. The random numbers are generated and the array values are swapped n times because they are put into a for loop that runs as many times as the size of the array. 
- * Parameters: An array of templated values, integer value for the size of the array
- * Return: None
- * Notes: 
- */
+Description: A function that randomly shuffles a templated array by creating two random values that are used as array indexes and swapping them. The random numbers are generated and the array values are swapped n times because they are put into a for loop that runs as many times as the size of the array. 
+Parameters: An array of templated values, integer value for the size of the array
+Return: None
+Notes: 
+*/
 
 template <class T> void randomShuffle(T A[], int arrSize){
     for (int i = 0; i < arrSize; i++){
@@ -104,11 +104,11 @@ template <class T> void randomShuffle(T A[], int arrSize){
     }
 } 
 /*
- * Description: A function that prints out all the contents of an array
- * Parameters: An array of templated values, integer value for the size of the array
- * Return: None
- * Notes: 
- */
+Description: A function that prints out all the contents of an array
+Parameters: An array of templated values, integer value for the size of the array
+Return: None
+Notes: 
+*/
 
 template <class T> void printArray(T A[], int arrSize){
     for (int i = 0; i < arrSize; i++){
@@ -118,99 +118,112 @@ template <class T> void printArray(T A[], int arrSize){
 }
 
 /*
- * Description: A function to time four different sorts and report the time. The function uses an array of function pointers that have been set equal to the four different sort functions.
- * Parameters: Two arrays of templated values, integer value for the size of the array
- * Return: None
- * Notes: timing code taken from Spickler's function pointer folder #3,#4,#5,#7
- */
+Description: A function to count the operations of four different sorts and print the number. The function uses an array of function pointers that have been set equal to the four different sort functions.
+Parameters: Two arrays of templated values, integer value for the size of the array
+Return: None
+Notes:
+*/
 
-template <class T> void timeSort(T A[], T seedA[], int arrSize){
-    void (*fctptr[4])(T[], int);
+template <class T> void countSort(T A[], T seedA[], int arrSize){
+    long count = 0;
+    long (*fctptr[4])(T[], int);
     fctptr[0] = bubble;
     fctptr[1] = insertion;
     fctptr[2] = selection;
     fctptr[3] = bubblesort2;
     for (int i = 0; i < 4; i ++){
-        //cout << "Before Sort:" << endl;
-        //printArray(A, arrSize);
-        auto start = high_resolution_clock::now();
-        fctptr[i](A, arrSize);
-        auto stop = high_resolution_clock::now();
-        auto duration = duration_cast<microseconds>(stop - start);
-        cout << "Time to sort with algorithm" << " " << i + 1 << ": "
-        << duration.count() / 1000000.0 << " seconds" << endl;
-        //cout << "After Sort" << endl;
-        //printArray(A, arrSize);
-        // re-seed the array with the default values for the next sorting algorithm
+        count = fctptr[i](A, arrSize);
+        cout << "Amount of operations for algorithm " << i + 1 << ": " << count/1000 << " thousand" << endl;
         for (int j = 0; j < arrSize; j++){
             A[j] = seedA[j];
         }
-        //cout << "After Reset: " << endl;
-        //printArray(A, arrSize);
     }
 }
 
-//Description: Array sort using bubble sort algorithm
+//Description: Array sort using bubble sort algorithm. There is also a count variable that counts the amount of arithmetic and logic operations being done throughout the program. The count variable does not count it's own operations.
 // Parameters: templated array, integer
-// Return: void
+// Return: long
 // Notes:
 
-template <class T> void bubble(T A[], int arrSize) {
-    for (int i = 0; i < arrSize - 1; i++) {
-        for (int j = 0; j < arrSize - i - 1; j++) {
+template <class T> long bubble(T A[], int arrSize) {
+    long count = 0;
+    for (int i = 0; i < arrSize - 1; i++, count += 4) {
+        for (int j = 0; j < arrSize - i - 1; j++, count += 5) {
+            count += 3;
             if (A[j] > A[j + 1]) {
                 T temp = A[j];
                 A[j] = A[j + 1];
                 A[j + 1] = temp;
+                count += 5;
             }
         }
     }
+    return count;
 }
 
-//Description: Array sort using insertion sort algorithm
+//Description: Array sort using insertion sort algorithm. There is also a count variable that counts the amount of arithmetic and logic operations being done throughout the program. The count variable does not count it's own operations.
 // Parameters: templated array, integer
-// Return: void
+// Return: long
 // Notes:
 
-template <class T> void insertion(T A[], int arrSize) {
-    for (int i = 0; i < arrSize; i++) {
+template <class T> long insertion(T A[], int arrSize) {
+    long count = 0;
+    for (int i = 0; i < arrSize; i++, count += 3) {
         int j = 0;
         T val = A[i];
-        for (j = i; j > 0 && A[j - 1] > val; j--)
+        count += 2;
+        for (j = i; j > 0 && A[j - 1] > val; j--, count += 6){
             A[j] = A[j - 1];
+            count += 2;
+        }
         A[j] = val;
+        count += 1;
     }
+    return count;
 }
 
-//Description: Array sort using selection sort algorithm
+//Description: Array sort using selection sort algorithm. There is also a count variable that counts the amount of arithmetic and logic operations being done throughout the program. The count variable does not count it's own operations.
 // Parameters: templated array, integer
-// Return: void
+// Return: long
 // Notes:
 
-template <class T> void selection(T A[], int arrSize) {
+template <class T> long selection(T A[], int arrSize) {
     int minindex;
-    for (int i = 0; i < arrSize; i++) {
+    long count = 1;
+    for (int i = 0; i < arrSize; i++, count += 3) {
         minindex = i;
-        for (int j = i; j < arrSize; j++)
-            if (A[j] < A[minindex])
+        count += 1;
+        for (int j = i; j < arrSize; j++, count += 3){
+            count += 1;
+            if (A[j] < A[minindex]){
                 minindex = j;
+                count += 1;
+            }
+        }
         T val = A[i];
         A[i] = A[minindex];
         A[minindex] = val;
+        count += 3; 
     }
+    return count;
 }
 
-//Description: Array sort using advanced bubble sort algorithm which includes a boolean catch to break out if the array is sorted
+//Description: Array sort using advanced bubble sort algorithm which includes a boolean catch to break out if the array is sorted. There is also a count variable that counts the amount of arithmetic and logic operations being done throughout the program. The count variable does not count it's own operations.
 // Parameters: templated array, integer
-// Return: void
+// Return: long
 // Notes:
-template<class T> void bubblesort2(T A[], int arrSize){
+template<class T> long bubblesort2(T A[], int arrSize){
     bool again = true;
-    for (int i = 0; i < arrSize-1 && again; i++)
-        for (int j = arrSize-1, again = false; j > i; --j)
+    long count = 1;
+    for (int i = 0; i < arrSize-1 && again; i++, count += 6)
+        for (int j = arrSize-1, again = false; j > i; --j, count += 5){
+            count += 3;
             if (A[j] < A[j-1]){
                 swap(A[j], A[j-1]);
                 again = true;
+                count += 6;
             }
+        }
+    return count;
 }
 
