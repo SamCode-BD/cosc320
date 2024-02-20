@@ -133,7 +133,7 @@ template <class T> void countSort(T A[], T seedA[], int arrSize){
     fctptr[3] = bubblesort2;
     for (int i = 0; i < 4; i ++){
         count = fctptr[i](A, arrSize);
-        cout << "Amount of operations for algorithm " << i + 1 << ": " << count/1000 << " thousand" << endl;
+        cout << "Amount of operations for algorithm " << i + 1 << ": " << count/10000 << " tens of thousands" << endl;
         for (int j = 0; j < arrSize; j++){
             A[j] = seedA[j];
         }
