@@ -5,13 +5,13 @@
 
 using namespace std;
 
-template <class T> using boolfctptr = bool (*)(const &T, const &T);
-template <class T> int count(*T, *T, const &T, boolfctptr);
-template <class T> int count(typename vector<T>::iterator, typename vector<T>::iterator, const &T, boolfctptr);
+template <class T> using boolfctptr = bool (*)(const T &, const T &);
+template <class T> int count(T*, T*, const T &, bool (*)(const T &, const T &));
+template <class T> int count(typename vector<T>::iterator, typename vector<T>::iterator, const T &, bool (*)(const T &, const T &));
 
-template <class T> bool Greater(const &T, const &T);
-template <class T> bool Less(const &T, const &T);
-template <class T> bool Equal(const &T, const &T);
+template <class T> bool Greater(const T &, const T &);
+template <class T> bool Less(const T &, const T &);
+template <class T> bool Equal(const T &, const T &);
 
 int main() {
     // Arrays for example.
@@ -49,3 +49,68 @@ int main() {
 // 3
 // 3
 // 1
+
+//Description:
+//Parameters:
+//Return:
+//Notes:
+template <class T> int count(T* A, T* B, const T & a, bool (*f)(const T &, const T &) ){
+    int count = 0;
+    bool check = false;
+    while (A < B){
+        check = f(*A,a);
+        if (check)
+            count++;
+        A = A + 1;
+    }
+    return count;
+}
+
+//Description:
+//Parameters:
+//Return:
+//Notes:
+template <class T> int count(typename vector<T>::iterator A, typename vector<T>::iterator B, const T & a, bool (*f)(const T &, const T &)){
+    int count = 0;
+    bool check = false;
+    while (A < B){
+        check = f(*A,a);
+        if (check)
+            count++;
+        A = A + 1;
+    }
+    return count;
+}
+
+//Description: Returns true if the first parameter value is greater than the second
+//Parameters: Two constant references to templated values
+//Return: boolean
+//Notes:
+template <class T> bool Greater(const T & a, const T & b){
+    if (a > b)
+        return true;
+    else
+        return false;
+}
+
+//Description: Returns true if the first parameter value is less than the second
+//Parameters: Two constant references to templated values
+//Return: boolean
+//Notes:
+template <class T> bool Less(const T & a, const T & b){
+    if (a < b)
+        return true;
+    else
+        return false;
+}
+
+//Description: Returns true if the parameter values are equal to each other
+//Parameters: Two constant references to templated values
+//Return: boolean
+//Notes:
+template <class T> bool Equal(const T & a, const T & b){
+    if (a == b)
+        return true;
+    else
+        return false;
+}
