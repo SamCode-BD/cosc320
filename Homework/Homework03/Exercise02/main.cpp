@@ -6,12 +6,16 @@
 using namespace std;
 
 template <class T> using boolfctptr = bool (*)(const T &, const T &);
+template <class T> using voidfctptr = void (*)(T &);
 template <class T> int count(T*, T*, const T &, bool (*)(const T &, const T &));
 template <class T> int count(typename vector<T>::iterator, typename vector<T>::iterator, const T &, bool (*)(const T &, const T &));
+template <class T> void alter(T*, T*, const T &, bool (*)(T &))
 
 template <class T> bool Greater(const T &, const T &);
 template <class T> bool Less(const T &, const T &);
 template <class T> bool Equal(const T &, const T &);
+
+string ucase(st 
 
 int main() {
     // Arrays for example.
@@ -50,9 +54,9 @@ int main() {
 // 3
 // 1
 
-//Description:
-//Parameters:
-//Return:
+//Description: Initializes a integer variable named count, and then iterates through the array from the first pointer parameter to the second pointer parameter, and for each array value, compares it to the target value parameter by way of the function pointer paramter. If the function pointer returns true, the count variable is incremented.
+//Parameters: Two pointers to templated data types, a constant reference to a templated data type, and a pointer to a function that takes in two constant references of a templated data type and returns a boolean
+//Return: integer
 //Notes:
 template <class T> int count(T* A, T* B, const T & a, bool (*f)(const T &, const T &) ){
     int count = 0;
@@ -66,9 +70,9 @@ template <class T> int count(T* A, T* B, const T & a, bool (*f)(const T &, const
     return count;
 }
 
-//Description:
-//Parameters:
-//Return:
+//Description: Initializes a integer variable named count, and then iterates through the array from the first pointer parameter to the second pointer parameter, and for each array value, compares it to the target value parameter by way of the function pointer paramter. If the function pointer returns true, the count variable is incremented.
+//Parameters: Two pointers to templated data types, a constant reference to a templated data type, and a pointer to a function that takes in two constant references of a templated data type and returns a boolean
+//Return: integer
 //Notes:
 template <class T> int count(typename vector<T>::iterator A, typename vector<T>::iterator B, const T & a, bool (*f)(const T &, const T &)){
     int count = 0;
