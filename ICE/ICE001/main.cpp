@@ -6,7 +6,7 @@
 using namespace std;
 
 template <class T> using updatefct = void (*)(T &);
-template <class T> void alter(T*, T*, updatefct);
+template <class T> void alter(T*, T*, void (*)(T &));
 template <class T> void twice(T &);
 template <class T> void print(const T &);
 
@@ -32,8 +32,8 @@ int main(){
     for_each(arr2 + 1, arr2 + 6, print<double>);
 }
 
-template <class T> void alter(T* x, T* y, updatefct f){
-    for_each(x, y, f);
+template <class T> void alter(T* x, T* y, void(*updatefct)(T &)){
+    for_each(x, y, updatefct);
 }
 
 template <class T> void twice(T &a){
