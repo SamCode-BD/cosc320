@@ -65,6 +65,9 @@ int main() {
     cout << f << endl;
     lcaseref(f);
     cout << f;
+    string x = "Give them";
+    string y = "em";
+    cout << substrto(x, y);
     return 0;
 }
 // will produce the following output;
@@ -212,20 +215,35 @@ void lcaseref(string & a){
     }
 }
 
-//Description:
+//Description: returns a substring of the first string up to but not including the second string, if the second string is a substring of the first
 //Parameters: two strings passed by value
 //Return: string
 //Notes:
 string substrto(string a, string b){
-    
+    char c[a.length()];
+    if (hassubstr(a,b)){
+        for (int i = 0; i < a.length(); i++){
+            for (int j = 0; j < b.length(); j++){
+                if (a[i] != a[i+j]){
+                    cout << a[i] << endl;
+                    cout << a[i+j];
+                    c[i] = a[i];
+                }
+            }
+        }
+        return c;
+    }
 }
 
-//Description:
+//Description: returns true if the second string is a substring of the first
 //Parameters: two constant references to strings
 //Return: boolean
 //Notes:
-bool hassubstr(const string & a, const string & b){
-    
+bool hassubstr(const string & a, const string & b){ 
+    if (a.length() < b.length())
+        return false;
+    else
+        return a.find(b);
 } 
 
 //Description:
