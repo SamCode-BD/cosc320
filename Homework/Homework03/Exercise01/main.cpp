@@ -1,3 +1,10 @@
+// Author: Samuel Dickerson
+// Creation Date: 2/21/2024
+// Last Update: 2/22/2024
+// Description: 
+// User Interface: 
+// Notes: 
+
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
