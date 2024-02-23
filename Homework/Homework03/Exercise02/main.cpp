@@ -217,15 +217,22 @@ void lcaseref(string & a){
 //Return: string
 //Notes:
 string substrto(string a, string b){
-    
+	    
 }
 
-//Description:
+//Description: returns true if the second string is a substring of the first
 //Parameters: two constant references to strings
 //Return: boolean
 //Notes:
 bool hassubstr(const string & a, const string & b){
-    
+    aTemp = a.c_str();
+    bTemp = b.c_str();
+    if (a.length() < b.length()){
+	    return false;
+    }
+    else {
+	    return a.find(b);
+    }
 } 
 
 //Description:
