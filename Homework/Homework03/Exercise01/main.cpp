@@ -1,9 +1,9 @@
 // Author: Samuel Dickerson
 // Creation Date: 2/21/2024
-// Last Update: 2/22/2024
-// Description: 
-// User Interface: 
-// Notes: 
+// Last Update: 2/23/2024
+// Description: A program that contains a function that can count the amount of true returns from the beginning of an array or vector to the end from any function pointer that points to a function that returns a boolean and takes in two constant references to a templated data type as parameters.
+// User Interface: none
+// Notes: none
 
 #include <algorithm>
 #include <cstdlib>
@@ -62,13 +62,13 @@ int main() {
 //Return: integer
 //Notes:
 template <class T> int count(T* A, T* B, const T & a, bool (*f)(const T &, const T &) ){
-    int count = 0;
-    bool check = false;
-    while (A < B){
-        check = f(*A,a);
-        if (check)
-            count++;
-        A = A + 1;
+    int count = 0; //initialize the count
+    bool check = false; //initialize the boolean to be changed by the function
+    while (A < B){ //while the beginning is less than the end
+        check = f(*A,a); //get the output of the function when it is passed a pointer to the current value of the array and the target value
+        if (check) //if the function outputs true then iterate count
+            count++; 
+        A = A + 1; //iterate the place in the array
     }
     return count;
 }
@@ -78,13 +78,13 @@ template <class T> int count(T* A, T* B, const T & a, bool (*f)(const T &, const
 //Return: integer
 //Notes:
 template <class T> int count(typename vector<T>::iterator A, typename vector<T>::iterator B, const T & a, bool (*f)(const T &, const T &)){
-    int count = 0;
-    bool check = false;
-    while (A < B){
-        check = f(*A,a);
-        if (check)
-            count++;
-        A = A + 1;
+    int count = 0; //initialize the count
+    bool check = false; //initialize the boolean to be changed by the function
+    while (A < B){ //while the beginning is less than the end
+        check = f(*A,a); //get the output of the function when it is passed a pointer to the current value of the array and the target value
+        if (check) //if the function outputs true then iterate count
+            count++; 
+        A = A + 1; //iterate the place in the array
     }
     return count;
 }

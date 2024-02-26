@@ -1,11 +1,10 @@
 // Author: Samuel Dickerson
 // Creation Date: 2/22/2024
-// Last Update: 2/23/2024
-// Description: A program that contains a function that can count the amount of true returns from the beginning of an array or vector to the end from any function pointer that points to a function that returns a boolean and takes in two constant references to a templated data type as parameters. The program also contains an alter function that can apply a function pointer to a function that returns nothing and takes in a constant refernce to a templated data type as a parameter from the beginning of an array or vector to the end
-// User Interface: asks user to input a filename for a dictionary, takes it in as a string
+// Last Update: 2/22/2024
+// Description: 
+// User Interface: 
 // Notes: 
 
-//includes
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -15,7 +14,6 @@
 
 using namespace std;
 
-//prototypes
 template <class T> using boolfctptr = bool (*)(const T &, const T &);
 template <class T> using voidfctptr = void (*)(T &);
 template <class T> int count(T*, T*, const T &, boolfctptr<T>);
@@ -67,11 +65,7 @@ int main() {
     string fileName; //create a fileName string for opening
     cin >> fileName; //take in user input
     inputFile.open(fileName, ios::in); //open the input file object
-    if (!inputFile){ // check open file error
-		cout << "There is no such file!" << endl;
-		exit(1); //exit(1) shows abnormal termination of program, exit(0) shows successful end
-	}
-	
+    
     int size = 0;//declare size variable
     string line; //temporarily store strings for counting
     while (getline(inputFile, line)) //get each line
@@ -92,24 +86,58 @@ int main() {
     
     alter(wordArr, wordArr + size, ucaseref); //change the whole array to upper case
     string the = "THE"; 
-    cout << count(wordArr, wordArr + size, the, hassubstr) << " words that have THE" << endl; //count how many words have the substring THE
+    cout << count(wordArr, wordArr + size, the, hassubstr) << endl;
     string er = "ER";
-    cout << count(wordArr, wordArr + size, er, endswith) << " words that end with ER" << endl; //count how many words end with ER
-    cout << count(wordArr, wordArr + size, the, startswith) << " words that start with THE" << endl; //count how many words start with THE
+    cout << count(wordArr, wordArr + size, er, endswith) << endl;
+    cout << count(wordArr, wordArr + size, the, startswith) << endl;
     string t = "T";
-    cout << count(wordArr, wordArr + size, t, startswith) << " words that start with T" << endl; //count how many words start with T
+    cout << count(wordArr, wordArr + size, t, startswith) << endl;
     string qTot[] = {"Q", "R", "S", "T", "U"}; //initialize an array of the letters starting at Q up to and including U
     int amount = 0; //set an amount to count the number of words that start with Q up to and including U
     for (int i = 0; i < 5; i++){
         amount += count(wordArr, wordArr + size, qTot[i], startswith); //call the count function for every string in the array 
     }
-    cout << amount << " words start with Q up to and including U" << endl; 
+    cout << amount  << endl; 
     string letters[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"}; //initialize an array of the letters starting at A up to and including M
     int total = 0; //set a total to count the number of words that start with A up to and including M
     for (int i = 0; i < 13; i++){
         total += count(wordArr, wordArr + size, letters[i], startswith); //call the count function for every string in the array
     }
-    cout << total << " words that start with A up to and including M" << endl;
+    cout << total  << endl;
+    
+/*    
+    for (int i = 0; i < size; i++){
+        cout << wordArr[i] << " "; //print the array;
+    }*/
+//     for (int i = 0; i < size; i++){ //for every element in the array take in the file line
+//         getline(inputFile, line);
+//         cout << wordArr[i];
+//     }
+//     vector<string> lines;
+//     while (getline(inputFile, line))
+//         lines.push_back(line);
+//     for (const auto& str : lines)
+//         cout << str << endl;
+//     for (int i = 0; i < size; i++){
+//         cout << wordArr[i] << " ";
+//     }
+    //     cout << ucase("hello") << endl;
+    //     cout << lcase("WoRlD") << endl;
+    //     string f = "heLLo";
+    //     ucaseref(f);
+    //     cout << f << endl;
+    //     lcaseref(f);
+    //     cout << f;
+    //     string x = "Give them";
+    //     string y = "em";
+    //     string g = "banana";
+    //     string h = "ba";
+    //     cout <<hassubstr(x, y);
+    //     cout << endswith(x, y) << endl;
+    //     cout << startswith(x, y) << endl;
+    //     cout << endswith(g, h) << endl;
+    //     cout << startswith(g, h) << endl;
+    //     cout << substrto(x, y);
     return 0;
 }
 
@@ -118,13 +146,13 @@ int main() {
 //Return: integer
 //Notes:
 template <class T> int count(T* A, T* B, const T & a, boolfctptr<T> f){
-    int count = 0; //initialize the count
-    bool check = false; //initialize the boolean to be changed by the function
-    while (A < B){ //while the beginning is less than the end
-        check = f(*A,a); //get the output of the function when it is passed a pointer to the current value of the array and the target value
-        if (check) //if the function outputs true then iterate count
-            count++; 
-        A = A + 1; //iterate the place in the array
+    int count = 0;
+    bool check = false;
+    while (A < B){
+        check = f(*A,a);
+        if (check)
+            count++;
+        A = A + 1;
     }
     return count;
 }
@@ -134,13 +162,13 @@ template <class T> int count(T* A, T* B, const T & a, boolfctptr<T> f){
 //Return: integer
 //Notes:
 template <class T> int count(typename vector<T>::iterator A, typename vector<T>::iterator B, const T & a, boolfctptr<T> f){
-    int count = 0; //initialize the count
-    bool check = false; //initialize the boolean to be changed by the function
-    while (A < B){ //while the beginning is less than the end
-        check = f(*A,a); //get the output of the function when it is passed a pointer to the current value of the array and the target value
-        if (check) //if the function outputs true then iterate count
-            count++; 
-        A = A + 1; //iterate the place in the array
+    int count = 0;
+    bool check = false;
+    while (A < B){
+        check = f(*A,a);
+        if (check)
+            count++;
+        A = A + 1;
     }
     return count;
 }
@@ -183,9 +211,9 @@ template <class T> bool Equal(const T & a, const T & b){
 //Return:
 //Notes:
 template <class T> void alter(T* A, T* B, voidfctptr<T> f){
-    while (A < B){ //while the beginning is less than the end 
-        f(*A); //apply the function to the current value of the array
-        A = A + 1; //increment the array
+    while (A < B){
+        f(*A);
+        A = A + 1;
     }
 }
 
@@ -194,9 +222,9 @@ template <class T> void alter(T* A, T* B, voidfctptr<T> f){
 //Return:
 //Notes:
 template <class T> void alter(typename vector<T>::iterator A, typename vector<T>::iterator B, voidfctptr<T> f){
-    while (A < B){ //while the beginning is less than the end 
-        f(*A); //apply the function to the current value of the vector
-        A = A + 1; //increment the current iterator of the vector
+    while (A < B){
+        f(*A);
+        A = A + 1;
     }
 }
 
@@ -259,11 +287,11 @@ void lcaseref(string & a){
 //Return: string
 //Notes:
 string substrto(string a, string b){
-    if (hassubstr(a,b)){ //run the has substring function to see if it has a substring
-        return a.substr(0, a.find(b)); //if it does return the substr of a from index zero to the index of a where the substring b is found
+    if (hassubstr(a,b)){
+        return a.substr(0, a.find(b));
     }
     else
-        return a; //return a if b is not a substring of a
+        return a;
 }
 
 //Description: returns true if the second string is a substring of the first
@@ -271,7 +299,7 @@ string substrto(string a, string b){
 //Return: boolean
 //Notes:
 bool hassubstr(const string & a, const string & b){ 
-    if (a.find(b) != string::npos){ //if there is some substring, b, in a, then return true
+    if (a.find(b) != string::npos){
         return true;
     }
     else
@@ -283,13 +311,13 @@ bool hassubstr(const string & a, const string & b){
 //Return: boolean
 //Notes:
 bool startswith(const string & a, const string & b){
-    int bLength = b.length(); //create an integer variable for the length of b as to avoid type comparison warnings in the for loop
-    char x[a.length()];  //create a character array, x, with the length of a
-    strcpy(x, a.c_str()); // copy a character array of a into x, so that it can be manipulated. Cannot manipulate a because it is constant
-    char y[bLength];  //create a character array, y, with the length of b
-    strcpy(y, b.c_str()); // copy a character array of b into y, so that it can be manipulated. Cannot manipulate b because it is constant
-    for (int i = 0; i < bLength; i++){ //iterate from the beginning of both the character arrays up to the length of the substring
-        if (x[i] != y[i]) //if the larger array is not equal to the substring array at any point return false, else return true
+    int bLength = b.length();
+    char x[a.length()];  
+    strcpy(x, a.c_str());
+    char y[bLength];  
+    strcpy(y, b.c_str());
+    for (int i = 0; i < bLength; i++){
+        if (x[i] != y[i])
             return false;
     }
     return true;
@@ -300,17 +328,17 @@ bool startswith(const string & a, const string & b){
 //Return: boolean
 //Notes:
 bool endswith(const string & a, const string & b){
-    int aLength = a.length(); //set variables for the length of the const array
-    int bLength = b.length(); //this will avoid variable type mismatch warnings in the for loop
+    int aLength = a.length();
+    int bLength = b.length();
     
-    char x[aLength];        //create a character array with the same size as a
-    strcpy(x, a.c_str());   //copy a character array of a into x
+    char x[aLength];
+    strcpy(x, a.c_str());
     
-    char y[bLength];        //create a character array with the same size as b
-    strcpy(y, b.c_str());   //copy a character array of b into y
+    char y[bLength];
+    strcpy(y, b.c_str());
     
-    for (int i = (aLength - 1), j = (bLength - 1); j >= 0; i--, j--){ //set i equal to the size of a-1, j equal to the size of b-1, and iterate through while j is greater than or equal to zero, decremting i and j each time
-        if (x[i] != y[j]){ //i is the end index of a or x, j is the end index of b or y, if they are not equal to each other at any point while the substring b is decrementing, return false, if this does not happen return true
+    for (int i = (aLength - 1), j = (bLength - 1); j >= 0; i--, j--){
+        if (x[i] != y[j]){
             return false;
         }
     }
