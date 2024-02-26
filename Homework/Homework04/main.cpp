@@ -1,7 +1,7 @@
 // Author: Samuel Dickerson
-// Creation Date: 2/21/2024
-// Last Update: 2/23/2024
-// Description: A program that contains a function that can count the amount of true returns from the beginning of an array or vector to the end from any function pointer that points to a function that returns a boolean and takes in two constant references to a templated data type as parameters.
+// Creation Date: 2/26/2024
+// Last Update: 2/26/2024
+// Description: 
 // User Interface: none
 // Notes: none
 
@@ -13,38 +13,42 @@
 using namespace std;
 
 template <class T> using boolfctptr = bool (*)(const T &, const T &);
-template <class T> int count(T*, T*, const T &, bool (*)(const T &, const T &));
-template <class T> int count(typename vector<T>::iterator, typename vector<T>::iterator, const T &, bool (*)(const T &, const T &));
+template <class T> int count(T*, T*, const T &, auto);
+template <class T> int count(typename vector<T>::iterator, typename vector<T>::iterator, const T &, auto);
 
-template <class T> bool Greater(const T &, const T &);
-template <class T> bool Less(const T &, const T &);
-template <class T> bool Equal(const T &, const T &);
+template <class T> bool GreaterEqual(T a, T b) {return a >= b;};
 
 int main() {
+    
+    auto Greater = [&a, &b](T x) -> T {return (a > b);};
+    
+    auto Less = [&a, &b](T x) -> T {return (a < b);};
+    
+    auto Equal = [&a, &b](T x) -> T {return (a == b);};
     // Arrays for example.
-    int arr1[7] = {2, 5, 6, 9, 10, 1, 1};
-    int arr2[7] = {4, 4, 2, 9, 0, 3, 4};
-    
-    long num = count(arr1, arr1 + 7, 3, Greater);
-    cout << num << endl;
-    num = count(arr1, arr1 + 7, 1, Equal);
-    cout << num << endl;
-    num = count(arr2, arr2 + 7, 4, Equal);
-    cout << num << endl;
-    num = count(arr2, arr2 + 7, 4, Less);
-    cout << num << endl;
-    
-    // Vectors for example.
-    vector<int> vec1 = {2, 5, 6, 9, 10, 1, 1};
-    vector<int> vec2 = {4, 4, 2, 9, 0, 3, 4};
-    num = count(vec1.begin(), vec1.end(), 1, Equal);
-    cout << num << endl;
-    num = count(vec2.begin(), vec2.end(), 4, Equal);
-    cout << num << endl;
-    num = count(vec2.begin(), vec2.end(), 4, Less);
-    cout << num << endl;
-    num = count(vec2.begin(), vec2.end(), 4, Greater);
-    cout << num << endl;
+//     int arr1[7] = {2, 5, 6, 9, 10, 1, 1};
+//     double arr2[7] = {4, 4, 2, 9, 0, 3, 4};
+//     
+//     long num = count(arr1, arr1 + 7, 3, Greater);
+//     cout << num << endl;
+//     num = count(arr1, arr1 + 7, 1, Equal);
+//     cout << num << endl;
+//     num = count(arr2, arr2 + 7, 4, Equal);
+//     cout << num << endl;
+//     num = count(arr2, arr2 + 7, 4, Less);
+//     cout << num << endl;
+//     
+//     Vectors for example.
+//     vector<int> vec1 = {2, 5, 6, 9, 10, 1, 1};
+//     vector<double> vec2 = {4, 4, 2, 9, 0, 3, 4};
+//     num = count(vec1.begin(), vec1.end(), 1, Equal);
+//     cout << num << endl;
+//     num = count(vec2.begin(), vec2.end(), 4, Equal);
+//     cout << num << endl;
+//     num = count(vec2.begin(), vec2.end(), 4, Less);
+//     cout << num << endl;
+//     num = count(vec2.begin(), vec2.end(), 4, Greater);
+//     cout << num << endl;
     return 0;
 }
 
@@ -78,37 +82,4 @@ template <class T> int count(typename vector<T>::iterator A, typename vector<T>:
         A = A + 1; //iterate the place in the array
     }
     return count;
-}
-
-//Description: Returns true if the first parameter value is greater than the second
-//Parameters: Two constant references to templated values
-//Return: boolean
-//Notes:
-template <class T> bool Greater(const T & a, const T & b){
-    if (a > b)
-        return true;
-    else
-        return false;
-}
-
-//Description: Returns true if the first parameter value is less than the second
-//Parameters: Two constant references to templated values
-//Return: boolean
-//Notes:
-template <class T> bool Less(const T & a, const T & b){
-    if (a < b)
-        return true;
-    else
-        return false;
-}
-
-//Description: Returns true if the parameter values are equal to each other
-//Parameters: Two constant references to templated values
-//Return: boolean
-//Notes:
-template <class T> bool Equal(const T & a, const T & b){
-    if (a == b)
-        return true;
-    else
-        return false;
 }
