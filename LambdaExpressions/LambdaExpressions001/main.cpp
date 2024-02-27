@@ -81,7 +81,7 @@ int main() {
   printArray(A, sz);
 
   // Definition of Less and Greater using lambda functions.
-  auto Less = [](auto a, auto b) { return a < b; };
+  auto Less = [](auto a, auto b) { return a < b;};
   auto Greater = [](auto a, auto b) { return a > b; };
 
   // Use of Less and Greater in the sort.  Syntax is just like a function

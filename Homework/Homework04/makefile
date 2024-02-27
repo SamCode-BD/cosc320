@@ -2,7 +2,7 @@
 
 PROG = prog
 CC = g++
-CPPFLAGS = -g -Wall
+CPPFLAGS = -g -Wall -std=c++20
 OBJS = main.o
 
 $(PROG) : $(OBJS)
