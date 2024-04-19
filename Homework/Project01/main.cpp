@@ -1,9 +1,10 @@
 /*
- A *uthor: Samuel Dickerson
+ Author: Samuel Dickerson
  Creation Date: 3/4/2024
- Last Update: 3/4/2024
- Description: 
- User Interface:
+ Last Update: 3/9/2024
+ Description: A program that will time various array sizes for different sorting algorithms and report the times back in a comma separated list.
+ User Interface: User will be asked for the algorithm to use, the
+type of data (int or double) if applicable, and to print the array to the console or not.
  Notes: Algorithms and code were taken from either
  Data Structures and Algorithms in C++ by Adam Drozdek or
  Introduction to Algorithms Fourth Edition by Cormen, Leiserson, Rivest, and
@@ -47,8 +48,13 @@ int main() {
   bool intdata = true;
   // Double data lower and upper bounds.
   double lower = 0, upper = 1;
-  //Array with array sizes
-  long size[10] = {10000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000};
+  //Array of array sizes
+  //long size[12] = {50000000, 100000000, 150000000, 200000000, 250000000, 300000000, 350000000, 400000000, 450000000, 500000000, 550000000, 600000000} //array used for quick sort
+  //long size[10] = {50000000, 100000000, 150000000, 200000000, 250000000, 300000000, 350000000, 400000000, 450000000, 500000000}; //array used for merge sort, algorithm library sort, radix of 10 with 0 to max size random elements
+  //long size[10] = {100000000, 200000000, 300000000, 400000000, 500000000, 600000000, 700000000, 800000000, 900000000, 1000000000}; //array values for radix of 100 and radix of 1000 with 0 to max size elements
+  //long size[15] = {100000000, 200000000, 300000000, 400000000, 500000000, 600000000, 700000000, 800000000, 900000000, 1000000000, 1100000000, 1200000000, 1300000000, 1400000000, 1500000000}; //array values for radix of 10000 with 0 to max size elements, radix of 10, 100, 1000, and 10000 for elements between 0 and 1000, count sort with both 0 to max size and 0 to 1000
+  //long size[10] = {25000000, 50000000, 75000000, 100000000, 125000000, 150000000, 175000000, 200000000, 225000000, 250000000}; //array for shell and heap sort
+  long size[12] = {25000000, 50000000, 75000000, 100000000, 125000000, 150000000, 175000000, 200000000, 225000000, 250000000, 275000000, 300000000}; //array used for comb sort and bucket sort
   // Array pointers.
   int *A;
   double *B;
@@ -57,18 +63,18 @@ int main() {
   alg = sortAlg();
   
   // Get data type to store and sort.
-  if (alg == 6 || alg == 7) {
+  if (alg == 6 || alg == 7) { //if radix or count sort, data type set to integer
     intdata = true;
-  } else if (alg == 8) {
+  } else if (alg == 8) { //if bucket sort, data type set to double
     intdata = false;
   } else {
     intdata = getNumericType();
   }
   
   // Get the data bounds.
-  if (intdata)
+  if (intdata) //keep n zero if int data
     n = 0;
-  else if (alg != 8) {
+  else if (alg != 8) { // if not count sort leave lower and upper equal to 0 and 1
       //auto vals = getDoubleRange();
       lower = 0;
       upper = 1;
@@ -77,14 +83,14 @@ int main() {
   // Print arrays, or not.
   printyn = getPrintArrays();
   
-  for (int j = 0; j < 10; j++){
-    n = size[j];
-    if (alg != 8)
+  for (int j = 0; j < 12; j++){ //for loop from 0 to size of array
+    n = size[j]; //set n equal to the element of the array of array sizes so each size can be tested
+    if (alg != 8) // as long as the algorithm is not bucket sort, upper set to size[j]
       upper = size[j];
     if (intdata) {
       // Integer data, declare and populate with random numbers.
       A = new int[n];
-      for_each(A, A + n, [n](int &i) { i = rand() % n; });
+      for_each(A, A + n, [n](int &i) { i = rand() % n; }); //modulus by size of the array, or modulus by 1000 for specific cases such as radix, 1000 was hardcoded when needed
       
       // Print array
       if (printyn)
@@ -105,7 +111,7 @@ int main() {
       else if (alg == 5)
         heapsort(A, n);
       else if (alg == 6)
-        radixsort(A, n, 10);
+        radixsort(A, n, 10000); //radix was hardcoded when needed 
       else if (alg == 7)
         countsort(A, n);
       else if (alg == 9)
@@ -125,7 +131,7 @@ int main() {
       cout << finish - start << ", " << flush;
       
       delete[] A;
-      } 
+    } 
     else {
       // Double data, declare and populate with random numbers.
       B = new double[n];

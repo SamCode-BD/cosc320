@@ -6,8 +6,7 @@ Description: Main driver program to allow the user to select array
 criteria and a sorting algorithm, then time the sort of the array with
 the selected algorithm.
 User Interface: User will be asked for the algorithm to use, the
-type of data (int or double) if applicable, array size, data value
-size if applicable, and to print the array to the console or not.
+type of data (int or double) if applicable, and to print the array to the console or not.
 Notes: Algorithms and code were taken from either
 Data Structures and Algorithms in C++ by Adam Drozdek or
 Introduction to Algorithms Fourth Edition by Cormen, Leiserson, Rivest, and
